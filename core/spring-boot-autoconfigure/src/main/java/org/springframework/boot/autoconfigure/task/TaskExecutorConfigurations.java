@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.task;
@@ -56,6 +63,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 /**
  * {@link TaskExecutor} configurations to be imported by
  * {@link TaskExecutionAutoConfiguration} in a specific order.
+ * <p>由 {@link TaskExecutionAutoConfiguration} 按特定顺序导入的 {@link TaskExecutor} 配置。</p>
  *
  * @author Andy Wilkinson
  * @author Moritz Halbritter
@@ -218,9 +226,9 @@ class TaskExecutorConfigurations {
 		static BeanFactoryPostProcessor bootstrapExecutorAliasPostProcessor() {
 			return (beanFactory) -> {
 				boolean hasBootstrapExecutor = beanFactory
-					.containsBean(ConfigurableApplicationContext.BOOTSTRAP_EXECUTOR_BEAN_NAME);
+						.containsBean(ConfigurableApplicationContext.BOOTSTRAP_EXECUTOR_BEAN_NAME);
 				boolean hasApplicationTaskExecutor = beanFactory
-					.containsBean(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME);
+						.containsBean(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME);
 				if (!hasBootstrapExecutor && hasApplicationTaskExecutor) {
 					beanFactory.registerAlias(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME,
 							ConfigurableApplicationContext.BOOTSTRAP_EXECUTOR_BEAN_NAME);
@@ -253,6 +261,10 @@ class TaskExecutorConfigurations {
 	 * {@link AsyncConfigurer} instance, if any. Consistently use the executor named
 	 * {@value TaskExecutionAutoConfiguration#APPLICATION_TASK_EXECUTOR_BEAN_NAME} in the
 	 * absence of a custom executor.
+	 *
+	 * <p>{@link AsyncConfigurer} 实现，委托给用户定义的 {@link AsyncConfigurer} 实例（如果有）。
+	 * 在没有自定义执行器的情况下，一致地使用名为
+	 * {@value TaskExecutionAutoConfiguration#APPLICATION_TASK_EXECUTOR_BEAN_NAME} 的执行器。</p>
 	 */
 	static class ApplicationTaskExecutorAsyncConfigurer implements AsyncConfigurer {
 

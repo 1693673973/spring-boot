@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.condition;
@@ -41,6 +48,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * {@link Condition} that checks if properties are defined in the environment.
+ * <p>{@link Condition}，用于检查属性是否在环境中定义。</p>
  *
  * @author Maciej Walkowiak
  * @author Phillip Webb
@@ -93,7 +101,7 @@ class OnPropertyCondition extends SpringBootCondition {
 	private Stream<MergedAnnotation<Annotation>> stream(MergedAnnotations annotations,
 			Class<? extends Annotation> type) {
 		return annotations.stream(type.getName())
-			.filter(MergedAnnotationPredicates.unique(MergedAnnotation::getMetaTypes));
+				.filter(MergedAnnotationPredicates.unique(MergedAnnotation::getMetaTypes));
 	}
 
 	private ConditionOutcome determineOutcome(MergedAnnotation<Annotation> annotation, PropertyResolver resolver) {
@@ -104,13 +112,13 @@ class OnPropertyCondition extends SpringBootCondition {
 		spec.collectProperties(resolver, missingProperties, nonMatchingProperties);
 		if (!missingProperties.isEmpty()) {
 			return ConditionOutcome.noMatch(ConditionMessage.forCondition(annotationType, spec)
-				.didNotFind("property", "properties")
-				.items(Style.QUOTE, missingProperties));
+					.didNotFind("property", "properties")
+					.items(Style.QUOTE, missingProperties));
 		}
 		if (!nonMatchingProperties.isEmpty()) {
 			return ConditionOutcome.noMatch(ConditionMessage.forCondition(annotationType, spec)
-				.found("different value in property", "different value in properties")
-				.items(Style.QUOTE, nonMatchingProperties));
+					.found("different value in property", "different value in properties")
+					.items(Style.QUOTE, nonMatchingProperties));
 		}
 		return ConditionOutcome.match(ConditionMessage.forCondition(annotationType, spec).because("matched"));
 	}
@@ -156,10 +164,10 @@ class OnPropertyCondition extends SpringBootCondition {
 			Assert.state(name != null, "'name' must not be null");
 			Assert.state(value.length > 0 || name.length > 0,
 					() -> "The name or value attribute of @%s must be specified"
-						.formatted(ClassUtils.getShortName(this.annotationType)));
+							.formatted(ClassUtils.getShortName(this.annotationType)));
 			Assert.state(value.length == 0 || name.length == 0,
 					() -> "The name and value attributes of @%s are exclusive"
-						.formatted(ClassUtils.getShortName(this.annotationType)));
+							.formatted(ClassUtils.getShortName(this.annotationType)));
 			return (value.length > 0) ? value : name;
 		}
 

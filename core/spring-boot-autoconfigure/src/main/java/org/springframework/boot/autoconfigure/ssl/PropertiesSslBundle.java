@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.ssl;
@@ -41,6 +48,7 @@ import org.springframework.util.Assert;
 /**
  * {@link SslBundle} backed by {@link JksSslBundleProperties} or
  * {@link PemSslBundleProperties}.
+ * <p>由 {@link JksSslBundleProperties} 或 {@link PemSslBundleProperties} 支持的 {@link SslBundle}。</p>
  *
  * @author Scott Frederick
  * @author Phillip Webb
@@ -101,8 +109,13 @@ public final class PropertiesSslBundle implements SslBundle {
 
 	/**
 	 * Get an {@link SslBundle} for the given {@link PemSslBundleProperties}.
+	 * <p>为给定的 {@link PemSslBundleProperties} 获取一个 {@link SslBundle}。</p>
+	 *
 	 * @param properties the source properties
+	 * <p>源属性</p>
+	 *
 	 * @return an {@link SslBundle} instance
+	 * <p>一个 {@link SslBundle} 实例</p>
 	 */
 	public static SslBundle get(PemSslBundleProperties properties) {
 		return get(properties, ApplicationResourceLoader.get());
@@ -110,16 +123,24 @@ public final class PropertiesSslBundle implements SslBundle {
 
 	/**
 	 * Get an {@link SslBundle} for the given {@link PemSslBundleProperties}.
+	 * <p>为给定的 {@link PemSslBundleProperties} 获取一个 {@link SslBundle}。</p>
+	 *
 	 * @param properties the source properties
+	 * <p>源属性</p>
+	 *
 	 * @param resourceLoader the resource loader used to load content
+	 * <p>用于加载内容的资源加载器</p>
+	 *
 	 * @return an {@link SslBundle} instance
+	 * <p>一个 {@link SslBundle} 实例</p>
+	 *
 	 * @since 3.3.5
 	 */
 	public static SslBundle get(PemSslBundleProperties properties, ResourceLoader resourceLoader) {
 		PemSslStore keyStore = getPemSslStore("keystore", properties.getKeystore(), resourceLoader);
 		if (keyStore != null) {
 			keyStore = keyStore.withAlias(properties.getKey().getAlias())
-				.withPassword(properties.getKey().getPassword());
+					.withPassword(properties.getKey().getPassword());
 		}
 		PemSslStore trustStore = getPemSslStore("truststore", properties.getTruststore(), resourceLoader);
 		SslStoreBundle storeBundle = new PemSslStoreBundle(keyStore, trustStore);
@@ -150,8 +171,13 @@ public final class PropertiesSslBundle implements SslBundle {
 
 	/**
 	 * Get an {@link SslBundle} for the given {@link JksSslBundleProperties}.
+	 * <p>为给定的 {@link JksSslBundleProperties} 获取一个 {@link SslBundle}。</p>
+	 *
 	 * @param properties the source properties
+	 * <p>源属性</p>
+	 *
 	 * @return an {@link SslBundle} instance
+	 * <p>一个 {@link SslBundle} 实例</p>
 	 */
 	public static SslBundle get(JksSslBundleProperties properties) {
 		return get(properties, ApplicationResourceLoader.get());
@@ -159,9 +185,17 @@ public final class PropertiesSslBundle implements SslBundle {
 
 	/**
 	 * Get an {@link SslBundle} for the given {@link JksSslBundleProperties}.
+	 * <p>为给定的 {@link JksSslBundleProperties} 获取一个 {@link SslBundle}。</p>
+	 *
 	 * @param properties the source properties
+	 * <p>源属性</p>
+	 *
 	 * @param resourceLoader the resource loader used to load content
+	 * <p>用于加载内容的资源加载器</p>
+	 *
 	 * @return an {@link SslBundle} instance
+	 * <p>一个 {@link SslBundle} 实例</p>
+	 *
 	 * @since 3.3.5
 	 */
 	public static SslBundle get(JksSslBundleProperties properties, ResourceLoader resourceLoader) {

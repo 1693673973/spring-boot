@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure;
@@ -42,6 +49,7 @@ import org.springframework.util.Assert;
  * reading {@link AutoConfigureOrder @AutoConfigureOrder},
  * {@link AutoConfigureBefore @AutoConfigureBefore} and
  * {@link AutoConfigureAfter @AutoConfigureAfter} annotations (without loading classes).
+ * <p>通过读取 {@link AutoConfigureOrder @AutoConfigureOrder}、{@link AutoConfigureBefore @AutoConfigureBefore} 和 {@link AutoConfigureAfter @AutoConfigureAfter} 注解（而不加载类），将 {@link EnableAutoConfiguration 自动配置} 类按优先级顺序排序。</p>
  *
  * @author Phillip Webb
  */
@@ -64,9 +72,11 @@ class AutoConfigurationSorter {
 
 	List<String> getInPriorityOrder(Collection<String> classNames) {
 		// Initially sort alphabetically
+		// 初始按字母顺序排序
 		List<String> alphabeticallyOrderedClassNames = new ArrayList<>(classNames);
 		Collections.sort(alphabeticallyOrderedClassNames);
 		// Then sort by order
+		// 然后按顺序排序
 		AutoConfigurationClasses classes = new AutoConfigurationClasses(this.metadataReaderFactory,
 				this.autoConfigurationMetadata, alphabeticallyOrderedClassNames);
 		List<String> orderedClassNames = new ArrayList<>(classNames);
@@ -77,6 +87,7 @@ class AutoConfigurationSorter {
 			return Integer.compare(i1, i2);
 		});
 		// Then respect @AutoConfigureBefore @AutoConfigureAfter
+		// 然后遵循 @AutoConfigureBefore @AutoConfigureAfter
 		orderedClassNames = sortByAnnotation(classes, orderedClassNames);
 		return orderedClassNames;
 	}
@@ -247,7 +258,7 @@ class AutoConfigurationSorter {
 						AutoConfigureOrder.DEFAULT_ORDER);
 			}
 			Map<String, @Nullable Object> attributes = getAnnotationMetadata()
-				.getAnnotationAttributes(AutoConfigureOrder.class.getName());
+					.getAnnotationAttributes(AutoConfigureOrder.class.getName());
 			if (attributes != null) {
 				Integer value = (Integer) attributes.get("value");
 				Assert.state(value != null, "'value' must not be null");
@@ -263,7 +274,7 @@ class AutoConfigurationSorter {
 
 		private Set<String> getAnnotationValue(Class<?> annotation) {
 			Map<String, @Nullable Object> attributes = getAnnotationMetadata()
-				.getAnnotationAttributes(annotation.getName(), true);
+					.getAnnotationAttributes(annotation.getName(), true);
 			if (attributes == null) {
 				return Collections.emptySet();
 			}

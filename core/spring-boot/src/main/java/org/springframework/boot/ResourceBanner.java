@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot;
@@ -46,6 +53,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Banner implementation that prints from a source text {@link Resource}.
+ * <p>从源文本 {@link Resource} 打印的 Banner 实现。</p>
  *
  * @author Phillip Webb
  * @author Vedran Pavic
@@ -85,9 +93,13 @@ public class ResourceBanner implements Banner {
 	/**
 	 * Return a mutable list of the {@link PropertyResolver} instances that will be used
 	 * to resolve placeholders.
+	 * <p>返回将用于解析占位符的可变 {@link PropertyResolver} 实例列表。</p>
 	 * @param environment the environment
+	 * <p>环境</p>
 	 * @param sourceClass the source class
+	 * <p>源类</p>
 	 * @return a mutable list of property resolvers
+	 * <p>可变的属性解析器列表</p>
 	 */
 	protected List<PropertyResolver> getPropertyResolvers(Environment environment, @Nullable Class<?> sourceClass) {
 		List<PropertyResolver> resolvers = new ArrayList<>();
@@ -124,8 +136,11 @@ public class ResourceBanner implements Banner {
 	/**
 	 * Return the application title that should be used for the source class. By default
 	 * will use {@link Package#getImplementationTitle()}.
+	 * <p>返回应用于源类的应用程序标题。默认情况下将使用 {@link Package#getImplementationTitle()}。</p>
 	 * @param sourceClass the source class
+	 * <p>源类</p>
 	 * @return the application title
+	 * <p>应用程序标题</p>
 	 */
 	protected @Nullable String getApplicationTitle(@Nullable Class<?> sourceClass) {
 		Package sourcePackage = (sourceClass != null) ? sourceClass.getPackage() : null;
@@ -168,6 +183,7 @@ public class ResourceBanner implements Banner {
 
 	/**
 	 * Like {@link MapPropertySource}, but allows {@code null} as map values.
+	 * <p>类似于 {@link MapPropertySource}，但允许 {@code null} 作为映射值。</p>
 	 */
 	private static class MapWithNullsPropertySource extends EnumerablePropertySource<Map<String, @Nullable Object>> {
 

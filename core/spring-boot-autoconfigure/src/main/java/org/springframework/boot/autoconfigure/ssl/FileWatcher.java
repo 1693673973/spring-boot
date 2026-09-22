@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.ssl;
@@ -47,6 +54,8 @@ import org.springframework.util.Assert;
 /**
  * Watches files and directories and triggers a callback on change.
  *
+ * <p>监视文件和目录，并在更改时触发回调。</p>
+ *
  * @author Moritz Halbritter
  * @author Phillip Webb
  */
@@ -62,8 +71,13 @@ class FileWatcher implements Closeable {
 
 	/**
 	 * Create a new {@link FileWatcher} instance.
+	 *
+	 * <p>创建一个新的 {@link FileWatcher} 实例。</p>
+	 *
 	 * @param quietPeriod the duration that no file changes should occur before triggering
 	 * actions
+	 *
+	 * <p>在触发操作之前不应发生文件更改的持续时间</p>
 	 */
 	FileWatcher(Duration quietPeriod) {
 		Assert.notNull(quietPeriod, "'quietPeriod' must not be null");
@@ -72,8 +86,16 @@ class FileWatcher implements Closeable {
 
 	/**
 	 * Watch the given files or directories for changes.
+	 *
+	 * <p>监视给定的文件或目录的更改。</p>
+	 *
 	 * @param paths the files or directories to watch
+	 *
+	 * <p>要监视的文件或目录</p>
+	 *
 	 * @param action the action to take when changes are detected
+	 *
+	 * <p>检测到更改时要执行的操作</p>
 	 */
 	void watch(Set<Path> paths, Runnable action) {
 		Assert.notNull(paths, "'paths' must not be null");
@@ -112,9 +134,31 @@ class FileWatcher implements Closeable {
 	 * <li>{@code data}</li>
 	 * <li>{@code stores/keystore.jks}</li>
 	 * </ul>
+	 *
+	 * <p>检索所有应针对指定 {@link Path} 注册的 {@link Path Paths}。如果路径是符号链接，则应监控符号链接的更改，而不仅仅是它指向的文件。例如，对于以下目录结构中给定的 {@code keystore.jks} 路径：</p>
+	 *
+	 * <p>（代码块见英文部分）</p>
+	 *
+	 * <p>结果路径将包括：</p>
+	 *
+	 * <ul>
+	 * <li>{@code keystore.jks}</li>
+	 * <li>{@code data/keystore.jks}</li>
+	 * <li>{@code data}</li>
+	 * <li>{@code stores/keystore.jks}</li>
+	 * </ul>
+	 *
 	 * @param paths the source paths
+	 *
+	 * <p>源路径</p>
+	 *
 	 * @return all possible {@link Path} instances to be registered
+	 *
+	 * <p>所有可能要注册的 {@link Path} 实例</p>
+	 *
 	 * @throws IOException if an I/O error occurs
+	 *
+	 * <p>如果发生 I/O 错误</p>
 	 */
 	private Set<Path> getRegistrationPaths(Set<Path> paths) throws IOException {
 		Set<Path> result = new HashSet<>();
@@ -160,6 +204,8 @@ class FileWatcher implements Closeable {
 
 	/**
 	 * The watcher thread used to check for changes.
+	 *
+	 * <p>用于检查更改的监视器线程。</p>
 	 */
 	private class WatcherThread extends Thread implements Closeable {
 
@@ -262,8 +308,15 @@ class FileWatcher implements Closeable {
 	/**
 	 * An individual watch registration.
 	 *
+	 * <p>一个单独的监视注册。</p>
+	 *
 	 * @param paths the paths being registered
+	 *
+	 * <p>正在注册的路径</p>
+	 *
 	 * @param action the action to take
+	 *
+	 * <p>要执行的操作</p>
 	 */
 	private record Registration(Set<Path> paths, Runnable action) {
 

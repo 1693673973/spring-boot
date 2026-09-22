@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure;
@@ -44,6 +51,7 @@ import org.springframework.util.StringUtils;
 /**
  * Class for storing auto-configuration packages for reference later (e.g. by JPA entity
  * scanner).
+ * <p>用于存储自动配置包以供稍后引用（例如由 JPA 实体扫描器引用）的类。</p>
  *
  * @author Phillip Webb
  * @author Dave Syer
@@ -59,8 +67,12 @@ public abstract class AutoConfigurationPackages {
 	/**
 	 * Determine if the auto-configuration base packages for the given bean factory are
 	 * available.
+	 * <p>确定给定 bean 工厂的自动配置基础包是否可用。</p>
+	 *
 	 * @param beanFactory the source bean factory
+	 *                    <p>源 bean 工厂</p>
 	 * @return true if there are auto-config packages available
+	 * <p>如果存在可用的自动配置包则返回 true</p>
 	 */
 	public static boolean has(BeanFactory beanFactory) {
 		return beanFactory.containsBean(BEAN) && !get(beanFactory).isEmpty();
@@ -68,9 +80,14 @@ public abstract class AutoConfigurationPackages {
 
 	/**
 	 * Return the auto-configuration base packages for the given bean factory.
+	 * <p>返回给定 bean 工厂的自动配置基础包。</p>
+	 *
 	 * @param beanFactory the source bean factory
+	 *                    <p>源 bean 工厂</p>
 	 * @return a list of auto-configuration packages
+	 * <p>自动配置包的列表</p>
 	 * @throws IllegalStateException if auto-configuration is not enabled
+	 *                               <p>如果自动配置未启用</p>
 	 */
 	public static List<String> get(BeanFactory beanFactory) {
 		try {
@@ -89,8 +106,15 @@ public abstract class AutoConfigurationPackages {
 	 * you don't call this method directly, but instead rely on the default convention
 	 * where the package name is set from your {@code @EnableAutoConfiguration}
 	 * configuration class or classes.
+	 * <p>以编程方式注册自动配置包名。后续调用会将给定的包名添加到已注册的包名中。
+	 * 您可以使用此方法手动定义将用于给定 {@link BeanDefinitionRegistry} 的基础包。
+	 * 通常建议不要直接调用此方法，而是依赖默认约定，即从您的 {@code @EnableAutoConfiguration}
+	 * 配置类设置包名。</p>
+	 *
 	 * @param registry the bean definition registry
+	 *                 <p>bean 定义注册表</p>
 	 * @param packageNames the package names to set
+	 *                     <p>要设置的包名</p>
 	 */
 	public static void register(BeanDefinitionRegistry registry, String... packageNames) {
 		if (registry.containsBeanDefinition(BEAN)) {
@@ -114,8 +138,8 @@ public abstract class AutoConfigurationPackages {
 					: Stream.empty();
 			constructorArgumentValues.addIndexedArgumentValue(0,
 					Stream.concat(existingPackagesStream, Stream.of(additionalBasePackages))
-						.distinct()
-						.toArray(String[]::new));
+							.distinct()
+							.toArray(String[]::new));
 		}
 		else {
 			constructorArgumentValues.addIndexedArgumentValue(0, additionalBasePackages);
@@ -125,6 +149,7 @@ public abstract class AutoConfigurationPackages {
 	/**
 	 * {@link ImportBeanDefinitionRegistrar} to store the base package from the importing
 	 * configuration.
+	 * <p>{@link ImportBeanDefinitionRegistrar} 用于存储导入配置的基础包。</p>
 	 */
 	static class Registrar implements ImportBeanDefinitionRegistrar, DeterminableImports {
 
@@ -142,6 +167,7 @@ public abstract class AutoConfigurationPackages {
 
 	/**
 	 * Wrapper for a package import.
+	 * <p>包导入的包装器。</p>
 	 */
 	private static final class PackageImports {
 
@@ -149,7 +175,7 @@ public abstract class AutoConfigurationPackages {
 
 		PackageImports(AnnotationMetadata metadata) {
 			AnnotationAttributes attributes = AnnotationAttributes
-				.fromMap(metadata.getAnnotationAttributes(AutoConfigurationPackage.class.getName(), false));
+					.fromMap(metadata.getAnnotationAttributes(AutoConfigurationPackage.class.getName(), false));
 			Assert.state(attributes != null, "'attributes' must not be null");
 			List<String> packageNames = new ArrayList<>(Arrays.asList(attributes.getStringArray("basePackages")));
 			for (Class<?> basePackageClass : attributes.getClassArray("basePackageClasses")) {
@@ -187,6 +213,7 @@ public abstract class AutoConfigurationPackages {
 
 	/**
 	 * Holder for the base package (name may be null to indicate no scanning).
+	 * <p>基础包的持有者（名称可能为 null 以表示不扫描）。</p>
 	 */
 	static final class BasePackages {
 

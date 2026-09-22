@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.logging;
@@ -35,6 +42,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * A condition evaluation report message that can logged or printed.
+ * <p>可以记录或打印的条件评估报告消息。</p>
  *
  * @author Phillip Webb
  * @author Andy Wilkinson
@@ -72,9 +80,9 @@ public class ConditionEvaluationReportMessage {
 		message.append(String.format("Positive matches:%n"));
 		message.append(String.format("-----------------%n"));
 		List<Entry<String, ConditionAndOutcomes>> matched = shortOutcomes.entrySet()
-			.stream()
-			.filter((entry) -> entry.getValue().isFullMatch())
-			.toList();
+				.stream()
+				.filter((entry) -> entry.getValue().isFullMatch())
+				.toList();
 		if (matched.isEmpty()) {
 			message.append(String.format("%n    None%n"));
 		}
@@ -88,9 +96,9 @@ public class ConditionEvaluationReportMessage {
 		message.append(String.format("Negative matches:%n"));
 		message.append(String.format("-----------------%n"));
 		List<Entry<String, ConditionAndOutcomes>> nonMatched = shortOutcomes.entrySet()
-			.stream()
-			.filter((entry) -> !entry.getValue().isFullMatch())
-			.toList();
+				.stream()
+				.filter((entry) -> !entry.getValue().isFullMatch())
+				.toList();
 		if (nonMatched.isEmpty()) {
 			message.append(String.format("%n    None%n"));
 		}
@@ -137,7 +145,7 @@ public class ConditionEvaluationReportMessage {
 			Assert.state(fullyQualifiedNames != null, "'fullyQualifiedNames' must not be null");
 			if (fullyQualifiedNames.size() > 1) {
 				fullyQualifiedNames
-					.forEach((fullyQualifiedName) -> result.put(fullyQualifiedName, outcomes.get(fullyQualifiedName)));
+						.forEach((fullyQualifiedName) -> result.put(fullyQualifiedName, outcomes.get(fullyQualifiedName)));
 			}
 			else {
 				result.put(shortName, outcomes.get(fullyQualifiedNames.get(0)));
@@ -149,7 +157,7 @@ public class ConditionEvaluationReportMessage {
 	private MultiValueMap<String, String> mapToFullyQualifiedNames(Set<String> keySet) {
 		LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		keySet
-			.forEach((fullyQualifiedName) -> map.add(ClassUtils.getShortName(fullyQualifiedName), fullyQualifiedName));
+				.forEach((fullyQualifiedName) -> map.add(ClassUtils.getShortName(fullyQualifiedName), fullyQualifiedName));
 		return map;
 	}
 

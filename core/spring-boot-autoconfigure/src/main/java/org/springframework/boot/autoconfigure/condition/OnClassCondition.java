@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.condition;
@@ -37,6 +44,7 @@ import org.springframework.util.StringUtils;
 /**
  * {@link Condition} and {@link AutoConfigurationImportFilter} that checks for the
  * presence or absence of specific classes.
+ * <p>{@link Condition} 和 {@link AutoConfigurationImportFilter}，用于检查特定类的存在或不存在。</p>
  *
  * @author Phillip Webb
  * @see ConditionalOnClass
@@ -51,6 +59,8 @@ class OnClassCondition extends FilteringSpringBootCondition {
 		// Split the work and perform half in a background thread if more than one
 		// processor is available. Using a single additional thread seems to offer the
 		// best performance. More threads make things worse.
+		// 将工作拆分，如果可用处理器多于一个，则在后台线程中执行一半。
+		// 使用单个额外线程似乎能提供最佳性能。更多线程会使情况更糟。
 		if (autoConfigurationClasses.length > 1 && Runtime.getRuntime().availableProcessors() > 1) {
 			return resolveOutcomesThreaded(autoConfigurationClasses, autoConfigurationMetadata);
 		}
@@ -92,31 +102,31 @@ class OnClassCondition extends FilteringSpringBootCondition {
 			List<String> missing = filter(onClasses, ClassNameFilter.MISSING, classLoader);
 			if (!missing.isEmpty()) {
 				return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnClass.class)
-					.didNotFind("required class", "required classes")
-					.items(Style.QUOTE, missing));
+						.didNotFind("required class", "required classes")
+						.items(Style.QUOTE, missing));
 			}
 			matchMessage = matchMessage.andCondition(ConditionalOnClass.class)
-				.found("required class", "required classes")
-				.items(Style.QUOTE, filter(onClasses, ClassNameFilter.PRESENT, classLoader));
+					.found("required class", "required classes")
+					.items(Style.QUOTE, filter(onClasses, ClassNameFilter.PRESENT, classLoader));
 		}
 		List<String> onMissingClasses = getCandidates(metadata, ConditionalOnMissingClass.class);
 		if (onMissingClasses != null) {
 			List<String> present = filter(onMissingClasses, ClassNameFilter.PRESENT, classLoader);
 			if (!present.isEmpty()) {
 				return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnMissingClass.class)
-					.found("unwanted class", "unwanted classes")
-					.items(Style.QUOTE, present));
+						.found("unwanted class", "unwanted classes")
+						.items(Style.QUOTE, present));
 			}
 			matchMessage = matchMessage.andCondition(ConditionalOnMissingClass.class)
-				.didNotFind("unwanted class", "unwanted classes")
-				.items(Style.QUOTE, filter(onMissingClasses, ClassNameFilter.MISSING, classLoader));
+					.didNotFind("unwanted class", "unwanted classes")
+					.items(Style.QUOTE, filter(onMissingClasses, ClassNameFilter.MISSING, classLoader));
 		}
 		return ConditionOutcome.match(matchMessage);
 	}
 
 	private @Nullable List<String> getCandidates(AnnotatedTypeMetadata metadata, Class<?> annotationType) {
 		MultiValueMap<String, @Nullable Object> attributes = metadata
-			.getAllAnnotationAttributes(annotationType.getName(), true);
+				.getAllAnnotationAttributes(annotationType.getName(), true);
 		if (attributes == null) {
 			return null;
 		}
@@ -235,6 +245,7 @@ class OnClassCondition extends FilteringSpringBootCondition {
 			}
 			catch (Exception ex) {
 				// We'll get another chance later
+				// 我们稍后还会有机会
 			}
 			return null;
 		}
@@ -242,8 +253,8 @@ class OnClassCondition extends FilteringSpringBootCondition {
 		private @Nullable ConditionOutcome getOutcome(String className, ClassLoader classLoader) {
 			if (ClassNameFilter.MISSING.matches(className, classLoader)) {
 				return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnClass.class)
-					.didNotFind("required class")
-					.items(Style.QUOTE, className));
+						.didNotFind("required class")
+						.items(Style.QUOTE, className));
 			}
 			return null;
 		}

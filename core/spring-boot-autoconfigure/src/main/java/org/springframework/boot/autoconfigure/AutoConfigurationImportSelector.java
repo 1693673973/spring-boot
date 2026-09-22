@@ -1,9 +1,13 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
@@ -12,6 +16,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure;
@@ -65,6 +70,7 @@ import org.springframework.util.StringUtils;
  * {@link DeferredImportSelector} to handle {@link EnableAutoConfiguration
  * auto-configuration}. This class can also be subclassed if a custom variant of
  * {@link EnableAutoConfiguration @EnableAutoConfiguration} is needed.
+ * <p>{@link DeferredImportSelector} 用于处理 {@link EnableAutoConfiguration 自动配置}。如果需要 {@link EnableAutoConfiguration @EnableAutoConfiguration} 的自定义变体，也可以对此类进行子类化。</p>
  *
  * @author Phillip Webb
  * @author Andy Wilkinson
@@ -136,8 +142,12 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 	/**
 	 * Return the {@link AutoConfigurationEntry} based on the {@link AnnotationMetadata}
 	 * of the importing {@link Configuration @Configuration} class.
+	 * <p>基于导入的 {@link Configuration @Configuration} 类的 {@link AnnotationMetadata} 返回 {@link AutoConfigurationEntry}。</p>
+	 *
 	 * @param annotationMetadata the annotation metadata of the configuration class
+	 *                           <p>配置类的注解元数据</p>
 	 * @return the auto-configurations that should be imported
+	 * <p>应该导入的自动配置</p>
 	 */
 	protected AutoConfigurationEntry getAutoConfigurationEntry(AnnotationMetadata annotationMetadata) {
 		if (!isEnabled(annotationMetadata)) {
@@ -170,8 +180,12 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 	 * Return the appropriate {@link AnnotationAttributes} from the
 	 * {@link AnnotationMetadata}. By default this method will return attributes for
 	 * {@link #getAnnotationClass()}.
+	 * <p>从 {@link AnnotationMetadata} 返回适当的 {@link AnnotationAttributes}。默认情况下，此方法将返回 {@link #getAnnotationClass()} 的属性。</p>
+	 *
 	 * @param metadata the annotation metadata
+	 *                 <p>注解元数据</p>
 	 * @return annotation attributes
+	 * <p>注解属性</p>
 	 */
 	protected @Nullable AnnotationAttributes getAttributes(AnnotationMetadata metadata) {
 		String name = getAnnotationClass().getName();
@@ -183,7 +197,10 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 
 	/**
 	 * Return the source annotation class used by the selector.
+	 * <p>返回选择器使用的源注解类。</p>
+	 *
 	 * @return the annotation class
+	 * <p>注解类</p>
 	 */
 	protected Class<?> getAnnotationClass() {
 		return EnableAutoConfiguration.class;
@@ -192,10 +209,15 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 	/**
 	 * Return the auto-configuration class names that should be considered. By default,
 	 * this method will load candidates using {@link ImportCandidates}.
+	 * <p>返回应考虑的自动配置类名。默认情况下，此方法将使用 {@link ImportCandidates} 加载候选者。</p>
+	 *
 	 * @param metadata the source metadata
+	 *                 <p>源元数据</p>
 	 * @param attributes the {@link #getAttributes(AnnotationMetadata) annotation
 	 * attributes}
+	 *                   <p>{@link #getAttributes(AnnotationMetadata) 注解属性}</p>
 	 * @return a list of candidate configurations
+	 * <p>候选配置列表</p>
 	 */
 	protected List<String> getCandidateConfigurations(AnnotationMetadata metadata,
 			@Nullable AnnotationAttributes attributes) {
@@ -224,8 +246,11 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 
 	/**
 	 * Handle any invalid excludes that have been specified.
+	 * <p>处理已指定的任何无效排除项。</p>
+	 *
 	 * @param invalidExcludes the list of invalid excludes (will always have at least one
 	 * element)
+	 *                        <p>无效排除项的列表（始终至少有一个元素）</p>
 	 */
 	protected void handleInvalidExcludes(List<String> invalidExcludes) {
 		StringBuilder message = new StringBuilder();
@@ -239,10 +264,15 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 
 	/**
 	 * Return any exclusions that limit the candidate configurations.
+	 * <p>返回限制候选配置的任何排除项。</p>
+	 *
 	 * @param metadata the source metadata
+	 *                 <p>源元数据</p>
 	 * @param attributes the {@link #getAttributes(AnnotationMetadata) annotation
 	 * attributes}
+	 *                   <p>{@link #getAttributes(AnnotationMetadata) 注解属性}</p>
 	 * @return exclusions or an empty set
+	 * <p>排除项或空集</p>
 	 */
 	protected Set<String> getExclusions(AnnotationMetadata metadata, @Nullable AnnotationAttributes attributes) {
 		Set<String> excluded = new LinkedHashSet<>();
@@ -257,7 +287,10 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 	/**
 	 * Returns the auto-configurations excluded by the
 	 * {@code spring.autoconfigure.exclude} property.
+	 * <p>返回由 {@code spring.autoconfigure.exclude} 属性排除的自动配置。</p>
+	 *
 	 * @return excluded auto-configurations
+	 * <p>排除的自动配置</p>
 	 * @since 2.3.2
 	 */
 	protected List<String> getExcludeAutoConfigurationsProperty() {
@@ -268,8 +301,8 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		if (environment instanceof ConfigurableEnvironment) {
 			Binder binder = Binder.get(environment);
 			return binder.bind(PROPERTY_NAME_AUTOCONFIGURE_EXCLUDE, String[].class)
-				.map(Arrays::asList)
-				.orElse(Collections.emptyList());
+					.map(Arrays::asList)
+					.orElse(Collections.emptyList());
 		}
 		String[] excludes = environment.getProperty(PROPERTY_NAME_AUTOCONFIGURE_EXCLUDE, String[].class);
 		return (excludes != null) ? Arrays.asList(excludes) : Collections.emptyList();
@@ -471,14 +504,14 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 							deferredImportSelector.getClass().getName()));
 			AutoConfigurationImportSelector autoConfigurationImportSelector = (AutoConfigurationImportSelector) deferredImportSelector;
 			AutoConfigurationReplacements autoConfigurationReplacements = autoConfigurationImportSelector
-				.getAutoConfigurationReplacements();
+					.getAutoConfigurationReplacements();
 			Assert.state(
 					this.autoConfigurationReplacements == null
 							|| this.autoConfigurationReplacements.equals(autoConfigurationReplacements),
 					"Auto-configuration replacements must be the same for each call to process");
 			this.autoConfigurationReplacements = autoConfigurationReplacements;
 			AutoConfigurationEntry autoConfigurationEntry = autoConfigurationImportSelector
-				.getAutoConfigurationEntry(annotationMetadata);
+					.getAutoConfigurationEntry(annotationMetadata);
 			this.autoConfigurationEntries.add(autoConfigurationEntry);
 			for (String importClassName : autoConfigurationEntry.getConfigurations()) {
 				this.entries.putIfAbsent(importClassName, annotationMetadata);
@@ -491,17 +524,17 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 				return Collections.emptyList();
 			}
 			Set<String> allExclusions = this.autoConfigurationEntries.stream()
-				.map(AutoConfigurationEntry::getExclusions)
-				.flatMap(Collection::stream)
-				.collect(Collectors.toSet());
+					.map(AutoConfigurationEntry::getExclusions)
+					.flatMap(Collection::stream)
+					.collect(Collectors.toSet());
 			Set<String> processedConfigurations = this.autoConfigurationEntries.stream()
-				.map(AutoConfigurationEntry::getConfigurations)
-				.flatMap(Collection::stream)
-				.collect(Collectors.toCollection(LinkedHashSet::new));
+					.map(AutoConfigurationEntry::getConfigurations)
+					.flatMap(Collection::stream)
+					.collect(Collectors.toCollection(LinkedHashSet::new));
 			processedConfigurations.removeAll(allExclusions);
 			return sortAutoConfigurations(processedConfigurations, getAutoConfigurationMetadata()).stream()
-				.map(this::getEntry)
-				.toList();
+					.map(this::getEntry)
+					.toList();
 		}
 
 		private Entry getEntry(String importClassName) {
@@ -523,7 +556,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 					"'autoConfigurationReplacements' must not be null");
 			return new AutoConfigurationSorter(getMetadataReaderFactory(), autoConfigurationMetadata,
 					this.autoConfigurationReplacements::replace)
-				.getInPriorityOrder(configurations);
+					.getInPriorityOrder(configurations);
 		}
 
 		private MetadataReaderFactory getMetadataReaderFactory() {
@@ -552,8 +585,12 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		/**
 		 * Create an entry with the configurations that were contributed and their
 		 * exclusions.
+		 * <p>创建一个包含所贡献配置及其排除项的条目。</p>
+		 *
 		 * @param configurations the configurations that should be imported
+		 *                       <p>应导入的配置</p>
 		 * @param exclusions the exclusions that were applied to the original list
+		 *                   <p>应用于原始列表的排除项</p>
 		 */
 		AutoConfigurationEntry(Collection<String> configurations, Collection<String> exclusions) {
 			this.configurations = new ArrayList<>(configurations);

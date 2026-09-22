@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure;
@@ -50,6 +57,7 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
  * {@link ApplicationContextInitializer} to create a shared
  * {@link CachingMetadataReaderFactory} between the
  * {@link ConfigurationClassPostProcessor} and Spring Boot.
+ * <p>{@link ApplicationContextInitializer}，用于在 {@link ConfigurationClassPostProcessor} 和 Spring Boot 之间创建共享的 {@link CachingMetadataReaderFactory}。</p>
  *
  * @author Phillip Webb
  * @author Dave Syer
@@ -83,6 +91,7 @@ class SharedMetadataReaderFactoryContextInitializer implements
 	 * {@link BeanDefinitionRegistryPostProcessor} to register the
 	 * {@link CachingMetadataReaderFactory} and configure the
 	 * {@link ConfigurationClassPostProcessor}.
+	 * <p>{@link BeanDefinitionRegistryPostProcessor}，用于注册 {@link CachingMetadataReaderFactory} 并配置 {@link ConfigurationClassPostProcessor}。</p>
 	 */
 	static class CachingMetadataReaderFactoryPostProcessor
 			implements BeanDefinitionRegistryPostProcessor, PriorityOrdered {
@@ -96,6 +105,7 @@ class SharedMetadataReaderFactoryContextInitializer implements
 		@Override
 		public int getOrder() {
 			// Must happen before the ConfigurationClassPostProcessor is created
+			// 必须在创建 ConfigurationClassPostProcessor 之前发生
 			return Ordered.HIGHEST_PRECEDENCE;
 		}
 
@@ -112,8 +122,8 @@ class SharedMetadataReaderFactoryContextInitializer implements
 		private void register(BeanDefinitionRegistry registry) {
 			if (!registry.containsBeanDefinition(BEAN_NAME)) {
 				BeanDefinition definition = BeanDefinitionBuilder
-					.rootBeanDefinition(SharedMetadataReaderFactoryBean.class, SharedMetadataReaderFactoryBean::new)
-					.getBeanDefinition();
+						.rootBeanDefinition(SharedMetadataReaderFactoryBean.class, SharedMetadataReaderFactoryBean::new)
+						.getBeanDefinition();
 				registry.registerBeanDefinition(BEAN_NAME, definition);
 			}
 		}
@@ -125,6 +135,7 @@ class SharedMetadataReaderFactoryContextInitializer implements
 			}
 			catch (NoSuchBeanDefinitionException ex) {
 				// Ignore
+				// 忽略
 			}
 		}
 
@@ -155,6 +166,7 @@ class SharedMetadataReaderFactoryContextInitializer implements
 	/**
 	 * {@link Supplier} used to customize the {@link ConfigurationClassPostProcessor} when
 	 * it's first created.
+	 * <p>{@link Supplier}，用于在 {@link ConfigurationClassPostProcessor} 首次创建时对其进行自定义。</p>
 	 */
 	static class ConfigurationClassPostProcessorCustomizingSupplier implements Supplier<Object> {
 
@@ -185,6 +197,7 @@ class SharedMetadataReaderFactoryContextInitializer implements
 
 	/**
 	 * {@link FactoryBean} to create the shared {@link MetadataReaderFactory}.
+	 * <p>{@link FactoryBean}，用于创建共享的 {@link MetadataReaderFactory}。</p>
 	 */
 	static class SharedMetadataReaderFactoryBean implements FactoryBean<CachingMetadataReaderFactory>,
 			ResourceLoaderAware, ApplicationListener<ContextRefreshedEvent> {

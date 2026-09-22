@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.logging;
@@ -38,9 +45,12 @@ import org.springframework.util.Assert;
  * to the log. Reports are logged at the {@link LogLevel#DEBUG DEBUG} level. A crash
  * report triggers an info output suggesting the user runs again with debug enabled to
  * display the report.
+ * <p>{@link ApplicationContextInitializer}，用于将 {@link ConditionEvaluationReport} 写入日志。报告以 {@link LogLevel#DEBUG DEBUG} 级别记录。崩溃报告会触发一条信息输出，建议用户启用调试后再次运行以显示报告。</p>
+ *
  * <p>
  * This initializer is not intended to be shared across multiple application context
  * instances.
+ * <p>此初始化器不打算在多个应用程序上下文实例之间共享。</p>
  *
  * @author Greg Turnquist
  * @author Dave Syer
@@ -71,8 +81,12 @@ public class ConditionEvaluationReportLoggingListener
 	 * Static factory method that creates a
 	 * {@link ConditionEvaluationReportLoggingListener} which logs the report at the
 	 * specified log level.
+	 * <p>静态工厂方法，创建一个 {@link ConditionEvaluationReportLoggingListener}，以指定的日志级别记录报告。</p>
+	 *
 	 * @param logLevelForReport the log level to log the report at
+	 *                          <p>记录报告所用的日志级别</p>
 	 * @return a {@link ConditionEvaluationReportLoggingListener} instance.
+	 * <p>一个 {@link ConditionEvaluationReportLoggingListener} 实例。</p>
 	 * @since 3.0.0
 	 */
 	public static ConditionEvaluationReportLoggingListener forLogLevel(LogLevel logLevelForReport) {
@@ -96,6 +110,7 @@ public class ConditionEvaluationReportLoggingListener
 			if (context instanceof GenericApplicationContext) {
 				// Get the report early when the context allows early access to the bean
 				// factory in case the context subsequently fails to load
+				// 当上下文允许早期访问 bean 工厂时，提前获取报告，以防上下文随后加载失败
 				ConditionEvaluationReport report = getReport();
 				reportSupplier = () -> report;
 			}

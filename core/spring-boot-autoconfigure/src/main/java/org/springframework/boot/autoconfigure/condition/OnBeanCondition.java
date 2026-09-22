@@ -1,17 +1,24 @@
 /*
  * Copyright 2012-present the original author or authors.
+ * 版权所有 2012-至今 原始作者
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
+ * 根据 Apache 许可证 2.0 版本（"许可证"）授权；
  * you may not use this file except in compliance with the License.
+ * 您仅在遵守许可证的情况下才可使用本文件。
  * You may obtain a copy of the License at
+ * 您可以从以下地址获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
+ * 除非适用法律要求或书面同意，按许可证分发的软件是基于"按原样"基础分发的，
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 不附带任何明示或暗示的保证或条件。
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 请查看许可证以了解管辖权限和限制的具体语言。
  */
 
 package org.springframework.boot.autoconfigure.condition;
@@ -74,6 +81,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * {@link Condition} that checks for the presence or absence of specific beans.
+ * <p>{@link Condition}，用于检查特定 bean 的存在或不存在。</p>
  *
  * @author Phillip Webb
  * @author Dave Syer
@@ -117,8 +125,8 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		List<String> missing = filter(requiredBeanTypes, ClassNameFilter.MISSING, getBeanClassLoader());
 		if (!missing.isEmpty()) {
 			ConditionMessage message = ConditionMessage.forCondition(annotation)
-				.didNotFind("required type", "required types")
-				.items(Style.QUOTE, missing);
+					.didNotFind("required type", "required types")
+					.items(Style.QUOTE, missing);
 			return ConditionOutcome.noMatch(message);
 		}
 		return null;
@@ -161,8 +169,8 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 			return ConditionOutcome.noMatch(spec.message().because(reason));
 		}
 		return ConditionOutcome.match(spec.message(matchMessage)
-			.found("bean", "beans")
-			.items(Style.QUOTE, matchResult.getNamesOfAllMatches()));
+				.found("bean", "beans")
+				.items(Style.QUOTE, matchResult.getNamesOfAllMatches()));
 	}
 
 	private ConditionOutcome evaluateConditionalOnSingleCandidate(Spec<ConditionalOnSingleCandidate> spec,
@@ -174,7 +182,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		Set<String> allBeans = matchResult.getNamesOfAllMatches();
 		if (allBeans.size() == 1) {
 			return ConditionOutcome
-				.match(spec.message(matchMessage).found("a single bean").items(Style.QUOTE, allBeans));
+					.match(spec.message(matchMessage).found("a single bean").items(Style.QUOTE, allBeans));
 		}
 		ConfigurableListableBeanFactory beanFactory = spec.context.getBeanFactory();
 		Assert.state(beanFactory != null, "'beanFactory' must not be null");
@@ -183,18 +191,18 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		List<String> primaryBeans = getPrimaryBeans(beanDefinitions);
 		if (primaryBeans.size() == 1) {
 			return ConditionOutcome.match(spec.message(matchMessage)
-				.found("a single primary bean '" + primaryBeans.get(0) + "' from beans")
-				.items(Style.QUOTE, allBeans));
+					.found("a single primary bean '" + primaryBeans.get(0) + "' from beans")
+					.items(Style.QUOTE, allBeans));
 		}
 		if (primaryBeans.size() > 1) {
 			return ConditionOutcome
-				.noMatch(spec.message().found("multiple primary beans").items(Style.QUOTE, primaryBeans));
+					.noMatch(spec.message().found("multiple primary beans").items(Style.QUOTE, primaryBeans));
 		}
 		List<String> nonFallbackBeans = getNonFallbackBeans(beanDefinitions);
 		if (nonFallbackBeans.size() == 1) {
 			return ConditionOutcome.match(spec.message(matchMessage)
-				.found("a single non-fallback bean '" + nonFallbackBeans.get(0) + "' from beans")
-				.items(Style.QUOTE, allBeans));
+					.found("a single non-fallback bean '" + nonFallbackBeans.get(0) + "' from beans")
+					.items(Style.QUOTE, allBeans));
 		}
 		return ConditionOutcome.noMatch(spec.message().found("multiple beans").items(Style.QUOTE, allBeans));
 	}
@@ -288,7 +296,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		if (ScopedProxyUtils.isScopedTarget(name)) {
 			try {
 				BeanDefinition originalDefinition = beanFactory
-					.getBeanDefinition(ScopedProxyUtils.getOriginalBeanName(name));
+						.getBeanDefinition(ScopedProxyUtils.getOriginalBeanName(name));
 				if (originalDefinition.isAutowireCandidate() && isDefaultCandidate(originalDefinition)) {
 					return true;
 				}
@@ -312,7 +320,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		for (BeanType ignoredType : ignoredTypes) {
 			Collection<String> ignoredNames = getBeanDefinitionsForType(beanFactory, considerHierarchy, ignoredType,
 					parameterizedContainers)
-				.keySet();
+					.keySet();
 			result = addAll(result, ignoredNames);
 		}
 		return (result != null) ? result : Collections.emptySet();
@@ -357,6 +365,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		}
 		catch (ClassNotFoundException ex) {
 			// Continue
+			// 继续
 		}
 		return (result != null) ? result : Collections.<String, @Nullable BeanDefinition>emptyMap();
 	}
@@ -557,6 +566,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 
 	/**
 	 * A search specification extracted from the underlying annotation.
+	 * <p>从底层注解中提取的搜索规范。</p>
 	 */
 	private static class Spec<A extends Annotation> {
 
@@ -579,8 +589,8 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		Spec(ConditionContext context, AnnotatedTypeMetadata metadata, MergedAnnotations annotations,
 				Class<A> annotationType) {
 			MultiValueMap<String, @Nullable Object> attributes = annotations.stream(annotationType)
-				.filter(MergedAnnotationPredicates.unique(MergedAnnotation::getMetaTypes))
-				.collect(MergedAnnotationCollectors.toMultiValueMap(Adapt.CLASS_TO_STRING));
+					.filter(MergedAnnotationPredicates.unique(MergedAnnotation::getMetaTypes))
+					.collect(MergedAnnotationCollectors.toMultiValueMap(Adapt.CLASS_TO_STRING));
 			MergedAnnotation<A> annotation = annotations.get(annotationType);
 			this.context = context;
 			this.annotationType = annotationType;
@@ -690,6 +700,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		private BeanType getReturnType(ConditionContext context, MethodMetadata metadata)
 				throws ClassNotFoundException, LinkageError {
 			// Safe to load at this point since we are in the REGISTER_BEAN phase
+			// 此时可以安全地加载，因为我们处于 REGISTER_BEAN 阶段
 			ClassLoader classLoader = context.getClassLoader();
 			ResolvableType returnType = getMethodReturnType(metadata, classLoader);
 			if (isParameterizedContainer(returnType.resolve())) {
@@ -700,8 +711,8 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 
 		private boolean isParameterizedContainer(@Nullable Class<?> type) {
 			return (type != null) && this.parameterizedContainers.stream()
-				.map((beanType) -> beanType.resolvableType().resolve(type))
-				.anyMatch((container) -> container != null && container.isAssignableFrom(type));
+					.map((beanType) -> beanType.resolvableType().resolve(type))
+					.anyMatch((container) -> container != null && container.isAssignableFrom(type));
 		}
 
 		private ResolvableType getMethodReturnType(MethodMetadata metadata, @Nullable ClassLoader classLoader)
@@ -728,7 +739,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 		@Contract("null -> false")
 		private boolean isBeanMethod(@Nullable Method method) {
 			return method != null && MergedAnnotations.from(method, MergedAnnotations.SearchStrategy.TYPE_HIERARCHY)
-				.isPresent(Bean.class);
+					.isPresent(Bean.class);
 		}
 
 		private SearchStrategy getStrategy() {
@@ -802,6 +813,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 	/**
 	 * Specialized {@link Spec specification} for
 	 * {@link ConditionalOnSingleCandidate @ConditionalOnSingleCandidate}.
+	 * <p>用于 {@link ConditionalOnSingleCandidate @ConditionalOnSingleCandidate} 的专用 {@link Spec 规范}。</p>
 	 */
 	private static class SingleCandidateSpec extends Spec<ConditionalOnSingleCandidate> {
 
@@ -829,6 +841,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 
 	/**
 	 * Results collected during the condition evaluation.
+	 * <p>条件评估期间收集的结果。</p>
 	 */
 	private static final class MatchResult {
 
@@ -915,6 +928,7 @@ class OnBeanCondition extends FilteringSpringBootCondition implements Configurat
 
 	/**
 	 * Exception thrown when the bean type cannot be deduced.
+	 * <p>当无法推断 bean 类型时抛出的异常。</p>
 	 */
 	static final class BeanTypeDeductionException extends RuntimeException {
 
